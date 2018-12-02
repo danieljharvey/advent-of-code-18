@@ -17,8 +17,8 @@ spec = describe "Two" $ do
     it "Counts all those that have threes" $
         allThrees ["pooo","sdfsdf","sssddd"] `shouldBe` 2
     it "list of lists" $
-        listOfLists [1,2,3] `shouldBe` [(1,[2,3]), (2, [1,3]), (3, [1,2])]
+        listOfLists [1,2,3] `shouldBe` [(1,[1,2,3]), (2, [1,2,3]), (3, [1,2,3])]
     it "Seperate me" $
-        separateMe [1,2,3] 1 `shouldBe` (1, [2,3])
+        copyMe [1,2,3] 1 `shouldBe` (1, [1,2,3])
     it "Seperate me by index not value" $
-        separateMe [2,2,3] 1 `shouldBe` (2, [2,3])
+        copyMe [2,2,3] 1 `shouldBe` (1, [2,2,3])

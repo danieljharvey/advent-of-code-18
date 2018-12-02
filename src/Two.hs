@@ -37,9 +37,7 @@ type CompareTuple a = (a,[a])
 
 listOfLists :: (Eq a) => [a] -> [CompareTuple a]
 listOfLists [] = []
-listOfLists as = fmap (separateMe as) as
+listOfLists as = fmap (copyMe as) as
 
-separateMe :: (Eq a) => [a] -> a -> CompareTuple a
-separateMe as a = (a, leftovers) where
-    leftovers = filter (/= a) as
-
+copyMe :: (Eq a) => [a] -> a -> CompareTuple a
+copyMe = flip (,)
