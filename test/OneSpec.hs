@@ -10,4 +10,4 @@ spec = describe "One" $ do
         it "Finds another duplicate in a list" $
             firstDuplicate [1,2,3,4,5,6,5] `shouldBe` [5]
         it "Finds the first number again by cycling around the list" $
-            firstRepeat [-6,1,2,3] `shouldBe` Just 0
+            firstRepeat [-100,110] `shouldBe` Just 0
