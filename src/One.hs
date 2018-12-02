@@ -20,14 +20,16 @@ one = do
 parseLines :: String -> [Integer]
 parseLines str = map parse $ lines str
 
-parseAndTotal :: [Integer] -> Integer
-parseAndTotal = sum
-
 parse :: String -> Integer
 parse "" = 0
 parse str = case symbol str of
     Add -> nums str
     _   -> -1 * nums str
+
+-- Part 1
+
+parseAndTotal :: [Integer] -> Integer
+parseAndTotal = sum
 
 symbol :: String -> Symbol
 symbol s = if '-' `elem` s then Sub else Add
@@ -35,13 +37,7 @@ symbol s = if '-' `elem` s then Sub else Add
 nums :: String -> Integer
 nums str = fromMaybe 0 $ readMaybe $ filter isDigit str
 
-
-filterNonDupes :: [Integer] -> [Integer]
-filterNonDupes as = filter (isDuplicate as) as
-
-isDuplicate :: [Integer] -> Integer -> Bool
-isDuplicate as a = length matches > 1 where
-    matches = findIndices (`elem` [a]) as
+-- Part 2
 
 scanThem :: [Integer] -> [Integer]
 scanThem = scanl (flip (+)) 0
