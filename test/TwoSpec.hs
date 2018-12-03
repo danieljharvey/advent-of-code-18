@@ -22,3 +22,19 @@ spec = describe "Two" $ do
         copyMe [1,2,3] 1 `shouldBe` (1, [1,2,3])
     it "Seperate me by index not value" $
         copyMe [2,2,3] 1 `shouldBe` (1, [2,2,3])
+    it "counts differences between strings" $
+        differences "abc" "abd" `shouldBe` 1
+    it "counts order of letters" $
+        differences "abc" "acb" `shouldBe` 2
+    it "counts zero differences between same string" $
+        differences "abc" "abc" `shouldBe` 0
+    it "combines diffs" $
+        combineDiffs "dog" "log" `shouldBe` "og"
+    it "counts diffs right" $
+        differences "tqyvfuogzarflkpcxdewsmjhxi" "tqyvjuogzarflkpcadewsmjhxi" `shouldBe` 2 
+    it "does not have a valid answer" $
+        hasAnswer ("poop", ["poop","pddlp","laop"]) `shouldBe` []
+    it "has a valid answer" $
+        hasAnswer ("abcd", ["abcd", "abce", "azci"]) `shouldBe` [("abcd", "abce")]
+    it "tries the whole part 2" $
+        exercise2Logic ["abcd", "abce", "azci", "poop"] `shouldBe` Just ("abcd", "abce")

@@ -3,6 +3,7 @@ module Two where
 import           Data.List
 import           Data.Monoid
 import           Data.Tuple
+import           Data.Maybe (fromMaybe)
 
 two :: IO ()
 two = do
@@ -34,10 +35,42 @@ exercise1 = readFile "./data/two.txt" >>= \str -> pure $ checkSum $ lines str
 -- part 2
 
 type CompareTuple a = (a,[a])
+type AnswerTuple a = (a,a)
 
-listOfLists :: (Eq a) => [a] -> [CompareTuple a]
+listOfLists :: [a] -> [CompareTuple a]
 listOfLists [] = []
 listOfLists as = fmap (copyMe as) as
 
-copyMe :: (Eq a) => [a] -> a -> CompareTuple a
+copyMe :: [a] -> a -> CompareTuple a
 copyMe = flip (,)
+
+differences :: String -> String -> Int
+differences a b = length $ filter (== True) $ zipWith (/=) a b
+
+countTrue :: [Bool] -> Int
+countTrue = foldl (\i v -> if v then i + 1 else i) 0
+
+hasAnswer :: CompareTuple String -> [AnswerTuple String]
+hasAnswer (a,as) = fmap (\c -> (a,c)) matching where
+    matching = filter (\b -> (differences a b) == 1) as
+
+exercise2Logic :: [String] -> Maybe (AnswerTuple String)
+exercise2Logic lines = case listOfLists lines >>= hasAnswer of 
+       (x:_) -> Just x
+       _ -> Nothing
+
+combineDiffs :: String -> String -> String
+combineDiffs a b = filter (`elem` b) a
+
+formatAns :: Maybe (AnswerTuple String) -> String
+formatAns ans = fromMaybe "Could not find a pair" formattedAns where
+    formattedAns = fmap (\a -> combineDiffs (fst a) (snd a)) ans
+
+onlyTwo :: [String] -> [AnswerTuple String]
+onlyTwo lines = listOfLists lines >>= hasAnswer
+
+exercise2 :: IO String
+exercise2 = readFile "./data/two.txt"
+    >>= (\strs -> pure $ formatAns $ exercise2Logic $ lines strs)
+
+
