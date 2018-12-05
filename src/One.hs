@@ -29,7 +29,7 @@ parse str = case symbol str of
 -- Part 1
 
 parseAndTotal :: [Integer] -> Integer
-parseAndTotal = sum
+parseAndTotal as = getSum $ foldMap Sum as
 
 symbol :: String -> Symbol
 symbol s = if '-' `elem` s then Sub else Add
